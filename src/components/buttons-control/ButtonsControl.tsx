@@ -2,14 +2,36 @@ import { useMemo } from 'react';
 import Button from '../button/Button';
 
 type ButtonItems = {
-  text: string;
+  /**
+   * Текст кнопки.
+   */
+  label: string;
+
+  /**
+   * Событие клика по кнопки.
+   */
   onClick: () => void;
 };
 
 type Props = {
-  text: string;
+  /**
+   * Значение текстового поля.
+   */
+  value: string;
+
+  /**
+   * Событие изменения значения текстового поля.
+   */
   onChange: () => void;
+
+  /**
+   * Кнопки слева.
+   */
   leftButtons?: ButtonItems[];
+
+  /**
+   * Кнопки справа.
+   */
   rightButtons?: ButtonItems[];
 };
 
@@ -18,15 +40,20 @@ const mapButtons = (buttons?: ButtonItems[]) => {
 
   return (
     <>
-      {buttons.map(({ text, onClick }) => (
-        <Button onClick={onClick}>{text}</Button>
+      {buttons.map(({ label, onClick }, index) => (
+        <Button key={index} onClick={onClick}>
+          {label}
+        </Button>
       ))}
     </>
   );
 };
 
+/**
+ * Текстовый контрол с кнопками.
+ */
 const ButtonsControl = (props: Props) => {
-  const { leftButtons, rightButtons, text, onChange } = props;
+  const { leftButtons, rightButtons, value, onChange } = props;
 
   const left = useMemo(() => mapButtons(leftButtons), []);
   const right = useMemo(() => mapButtons(rightButtons), []);
@@ -34,7 +61,7 @@ const ButtonsControl = (props: Props) => {
   return (
     <div>
       <div>{left}</div>
-      <textarea value={text} onChange={onChange} />
+      <textarea value={value} onChange={onChange} />
       <div>{right}</div>
     </div>
   );

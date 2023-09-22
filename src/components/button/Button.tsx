@@ -1,10 +1,20 @@
 import css from './Button.module.css';
 
 type Props = {
-  children: string;
+  /**
+   * Клик по кнопке.
+   */
   onClick: () => void;
+
+  /**
+   * Содержимое кнопки.
+   */
+  children: string;
 };
 
+/**
+ * Кнопка.
+ */
 const Button = (props: Props) => {
   const { children, onClick } = props;
 
