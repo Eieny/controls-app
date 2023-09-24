@@ -1,0 +1,14 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 16px;
+}
+
+.container input {
+  align-self: center;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 8px;
+}

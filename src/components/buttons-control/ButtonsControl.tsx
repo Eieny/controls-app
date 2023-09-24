@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import Button from '../button/Button';
+import Input from '../input/Input';
+import css from './ButtonsControl.module.css';
 
-type ButtonItems = {
+export type ButtonItems = {
   /**
    * Текст кнопки.
    */
@@ -22,7 +24,7 @@ type Props = {
   /**
    * Событие изменения значения текстового поля.
    */
-  onChange: () => void;
+  onChange: (value: string) => void;
 
   /**
    * Кнопки слева.
@@ -58,11 +60,15 @@ const ButtonsControl = (props: Props) => {
   const left = useMemo(() => mapButtons(leftButtons), []);
   const right = useMemo(() => mapButtons(rightButtons), []);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
   return (
-    <div>
-      <div>{left}</div>
-      <textarea value={value} onChange={onChange} />
-      <div>{right}</div>
+    <div className={css['container']}>
+      <div className={css['buttons-container']}>{left}</div>
+      <Input value={value} onChange={handleChange} />
+      <div className={css['buttons-container']}>{right}</div>
     </div>
   );
 };

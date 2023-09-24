@@ -1,3 +1,29 @@
-button {
-  
+.button {
+  background-color: var(--button-background-color);
+  border-radius: 4px;
+  border: none;
+  outline: none;
+
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--button-font-color);
+  padding: 14px;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: var(--button-background-color_hover);
+}
+
+.button:active {
+  background-color: var(--button-background-color);
+  opacity: 0.7;
+}
+
+.button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--button-outline-color_focus);
 }

@@ -1,0 +1,7 @@
+.item {
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: var(--popover-item_hover);
+}

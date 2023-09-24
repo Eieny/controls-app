@@ -18,7 +18,11 @@ type Props = {
 const Button = (props: Props) => {
   const { children, onClick } = props;
 
-  return <button onClick={onClick}>{children}</button>;
+  return (
+    <button className={css['button']} onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;
