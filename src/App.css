@@ -1,0 +1,17 @@
+.control-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  justify-content: center;
+}
+
+.control-container h2 {
+  grid-column: span 2;
+  text-align: center;
+}
+
+.control-container > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

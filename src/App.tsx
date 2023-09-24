@@ -1,64 +1,77 @@
-import { Autocomplete, ButtonsControl } from './components';
+import appStore from './store/app.store';
+import { ButtonsControl, CountriesAutocomplete } from './components';
 import './App.css';
-import { useState } from 'react';
 
-const ITEMS = [
-  {
-    id: 0,
-    name: 'abc',
-    fullName: 'ABC',
-    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Australia.svg/50px-Flag_of_Australia.svg.png',
-  },
-  {
-    id: 1,
-    name: 'abc2',
-    fullName: 'ABC2',
-    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Australia.svg/50px-Flag_of_Australia.svg.png',
-  },
-  {
-    id: 2,
-    name: 'abc3',
-    fullName: 'ABC3',
-    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Australia.svg/50px-Flag_of_Australia.svg.png',
-  },
-  {
-    id: 3,
-    name: 'abc4',
-    fullName: 'ABC4',
-    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Australia.svg/50px-Flag_of_Australia.svg.png',
-  },
-];
+const store = appStore;
 
 function App() {
-  const [input, setInput] = useState('');
+  const { inputStore1, autocomplete1, inputStore2, autocomplete2 } = store;
+  const clearInput = () => {
+    inputStore1.value = '';
+  };
+  const setHello = () => {
+    inputStore1.value = 'Hello world!';
+  };
+  const alertNumber = () => {
+    if (!isNaN(Number(inputStore2.value))) {
+      alert(inputStore2.value);
+    }
+  };
+  const alertString = () => {
+    alert(inputStore2.value);
+  };
+
   return (
     <div>
-      <ButtonsControl
-        onChange={() => {}}
-        value=''
-        leftButtons={[{ label: '1', onClick: () => {} }]}
-        rightButtons={[
-          {
-            label: 'right',
-            onClick: () => {},
-          },
-        ]}
-      />
-
-      <Autocomplete
-        value={input}
-        onChange={setInput}
-        maxOptions={2}
-        options={ITEMS}
-        getOptionLabel={item => item.name}
-        renderOption={item => (
-          <>
-            <img src={item.flag} />
-            <span>{item.name}</span>
-            <span>{item.fullName}</span>
-          </>
-        )}
-      />
+      <div className='control-container'>
+        <h2>Контрол-Автокомплит</h2>
+        <div>
+          <h3>Тестовый контрол 1</h3>
+          <CountriesAutocomplete store={autocomplete1} maxOptions={4} />
+        </div>
+        <div>
+          <h3>Тестовый контрол 2</h3>
+          <CountriesAutocomplete store={autocomplete2} maxOptions={10} />
+        </div>
+      </div>
+      <div className='control-container'>
+        <h2>Контрол с кнопками</h2>
+        <div>
+          <h3>Тестовый контрол 1</h3>
+          <ButtonsControl
+            rightButtons={[
+              {
+                label: 'Clear',
+                onClick: clearInput,
+              },
+              {
+                label: 'Hello',
+                onClick: setHello,
+              },
+            ]}
+            store={inputStore1}
+          />
+        </div>
+        
+        <div>
+          <h3>Тестовый контрол 2</h3>
+          <ButtonsControl
+            leftButtons={[
+              {
+                label: 'Check',
+                onClick: alertNumber,
+              },
+            ]}
+            rightButtons={[
+              {
+                label: 'Get text',
+                onClick: alertString,
+              },
+            ]}
+            store={inputStore2}
+          />
+        </div>
+      </div>
     </div>
   );
 }

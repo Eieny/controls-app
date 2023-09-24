@@ -1,0 +1,20 @@
+.options-container {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  grid-template-rows: repeat(2, auto);
+  column-gap: 12px;
+  padding: 8px 12px;
+}
+
+.options-container img {
+  display: inline;
+  grid-row: span 2;
+  align-self: center;
+  margin: auto;
+}
+
+.full-name {
+  grid-column: 2;
+  color: var(--autocomplete-subname-color);
+  font-size: small;
+}

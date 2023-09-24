@@ -1,3 +1,22 @@
+:root {
+  --input-background-color: #ffffff;
+  --input-border-color: #1f406f44;
+  --input-outline-color_focus: #0059d9;
+  --input-font-color: #000000;
+
+  --button-background-color: #0059d9;
+  --button-background-color_hover: #000000;
+  --button-font-color: #ffffff;
+  --button-outline-color_focus: #000000;
+
+  --popover-background-color: #FFFFFF;
+  --popover-shadow: rgba(0, 0, 0, 0.3);
+
+  --autocomplete-subname-color: rgb(0, 0, 0, 0.7);
+
+  --popover-item_hover: rgb(0, 0, 0, 0.05);
+}
+
 * {
   box-sizing: border-box;
 }

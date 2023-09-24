@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import Popup from '../popup/Popup';
-import PopupItem from '../popup-item/PopupItem';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import Popover from '../popover/Popover';
+import PopoverItem from '../popover-item/PopoverItem';
+import Input from '../input/Input';
 
 type Props<T> = {
   /**
@@ -35,6 +37,26 @@ type Props<T> = {
   isBuisy?: boolean;
 };
 
+const useOutsideClick = (callback: () => void) => {
+  const ref = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [callback]);
+
+  return ref;
+};
+
 const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
   const {
     value,
@@ -47,6 +69,7 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
     isBuisy = false,
   } = props;
   const [isOpen, toggleOpen] = useState(false);
+  const ref = useOutsideClick(() => toggleOpen(false));
   const slicedOptions =
     maxOptions && options.length > maxOptions
       ? options.slice(0, maxOptions)
@@ -69,37 +92,41 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
     toggleOpen(true);
   };
 
-  const handleBlur = () => {
-    toggleOpen(false);
-  };
-
   const handleClickOption = (option: T) => {
-    console.log(option);
     onChange(getOptionLabel(option));
     toggleOpen(false);
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div>
-      <input
+      <Input
         role='combobox'
         value={value}
         onChange={handleChange}
         onFocus={handleFocus}
-        // onBlur={handleBlur}
         placeholder={placeholder}
+        aRef={inputRef}
       />
-      <Popup isOpen={isOpen} isBuisy={isBuisy}>
-        {slicedOptions.map(option => (
-          <PopupItem
-            key={option.id}
-            id={option.id}
-            onClick={() => handleClickOption(option)}
-          >
-            {renderOption(option)}
-          </PopupItem>
-        ))}
-      </Popup>
+      {createPortal(
+        <Popover
+          isOpen={isOpen}
+          isBuisy={isBuisy}
+          innerRef={ref}
+          anchorRef={inputRef}
+        >
+          {slicedOptions.map(option => (
+            <PopoverItem
+              key={option.id}
+              onClick={() => handleClickOption(option)}
+            >
+              {renderOption(option)}
+            </PopoverItem>
+          ))}
+        </Popover>,
+        document.body
+      )}
     </div>
   );
 };
