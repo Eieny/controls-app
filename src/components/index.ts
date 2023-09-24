@@ -1,4 +1,4 @@
-import Autocomplete from './autocomplete/Autocomplete';
-import ButtonsControl from './buttons-control/ButtonsControl';
+import ButtonsControl from './stored-components/buttons-control/ButtonsControl';
+import CountriesAutocomplete from './stored-components/autocomplete/CountriesAutocomplete';
 
-export { ButtonsControl, Autocomplete };
+export { ButtonsControl, CountriesAutocomplete };
