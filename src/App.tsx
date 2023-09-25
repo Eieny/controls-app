@@ -1,8 +1,8 @@
-import appStore from './store/app.store';
+import appState from './store/app.state';
 import { ButtonsControl, CountriesAutocomplete } from './components';
 import './App.css';
 
-const store = appStore;
+const store = appState;
 
 function App() {
   const { inputStore1, autocomplete1, inputStore2, autocomplete2 } = store;
@@ -26,14 +26,15 @@ function App() {
       <div className='control-container'>
         <h2>Контрол-Автокомплит</h2>
         <div>
-          <h3>Тестовый контрол 1</h3>
+          <h3>Тестовый контрол с 4 подсказками</h3>
           <CountriesAutocomplete store={autocomplete1} maxOptions={4} />
         </div>
         <div>
-          <h3>Тестовый контрол 2</h3>
+          <h3>Тестовый контрол с 10 подсказками</h3>
           <CountriesAutocomplete store={autocomplete2} maxOptions={10} />
         </div>
       </div>
+      
       <div className='control-container'>
         <h2>Контрол с кнопками</h2>
         <div>
@@ -41,11 +42,11 @@ function App() {
           <ButtonsControl
             rightButtons={[
               {
-                label: 'Clear',
+                label: 'Очистить',
                 onClick: clearInput,
               },
               {
-                label: 'Hello',
+                label: 'Hello World!',
                 onClick: setHello,
               },
             ]}
@@ -58,13 +59,13 @@ function App() {
           <ButtonsControl
             leftButtons={[
               {
-                label: 'Check',
+                label: 'Вывести число',
                 onClick: alertNumber,
               },
             ]}
             rightButtons={[
               {
-                label: 'Get text',
+                label: 'Вывести текст',
                 onClick: alertString,
               },
             ]}

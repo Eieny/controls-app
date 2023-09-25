@@ -1,14 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import css from './Popover.module.css';
 
 type Props = {
   isBuisy?: boolean;
   isOpen?: boolean;
   children: JSX.Element[];
-  innerRef?: React.RefObject<HTMLElement>;
+  /**
+   * Реф на элемент-якорь.
+   */
   anchorRef: React.RefObject<HTMLElement>;
+  /**
+   * Событие клика вне поповера.
+   */
+  outsideClick: () => void;
 };
 
+/**
+ * Определение стилей. А именно, позиции, относительно якорного элемента
+ * и минимальная ширина элемента.
+ * @param anchor ссылка на элемент-якорь.
+ * @returns Объект с инлайновыми стилями.
+ */
 const useStyle = (anchor: React.RefObject<HTMLElement>) => {
   const [style, setStyle] = useState<React.CSSProperties>({});
 
@@ -24,20 +36,50 @@ const useStyle = (anchor: React.RefObject<HTMLElement>) => {
         minWidth: width,
       });
     }
-  }, [anchor]);
+  }, [anchor, window.innerWidth, window.innerHeight]);
 
   return style;
 };
 
+/**
+ * Добавляет на страницу обработчик события `mousedown`.
+ * Если клик происходит вне поповера, то срабатывает `callback`.
+ * @param callback Функция, которая вызывается при клике вне поповера.
+ * @returns Ссылка на поповер.
+ */
+const useOutsideClick = (callback: () => void) => {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [callback]);
+
+  return ref;
+};
+
+/**
+ * Поповер.
+ */
 const Popover = (props: Props) => {
   const {
     children,
     isBuisy = false,
     isOpen = false,
-    innerRef,
     anchorRef,
+    outsideClick,
   } = props;
   const style = useStyle(anchorRef);
+  const ref = useOutsideClick(outsideClick);
 
   if (!isOpen) return null;
   if (isBuisy)
@@ -51,7 +93,7 @@ const Popover = (props: Props) => {
       <div
         className={css['list_empty']}
         style={style}
-        ref={innerRef as React.RefObject<HTMLDivElement>}
+        ref={ref as React.RefObject<HTMLDivElement>}
       >
         No Options
       </div>
@@ -61,7 +103,7 @@ const Popover = (props: Props) => {
     <ul
       role='listbox'
       className={css['list']}
-      ref={innerRef as React.RefObject<HTMLUListElement>}
+      ref={ref as React.RefObject<HTMLUListElement>}
       style={style}
     >
       {children}

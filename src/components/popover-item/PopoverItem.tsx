@@ -1,11 +1,16 @@
 import css from './PopoverItem.module.css';
 
 type Props = {
+  /**
+   * Событие клика по элементу поповера.
+   */
   onClick: () => void;
   children: JSX.Element | string;
-  isSelected?: boolean;
 };
 
+/**
+ * Элемент поповера.
+ */
 const PopoverItem = (props: Props) => {
   const { children, onClick } = props;
 

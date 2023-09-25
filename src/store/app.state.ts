@@ -1,7 +1,10 @@
 import CountryAutocompleteStore from './country-autocomplete.state';
 import InputStore from './input.state';
 
-class AppStore {
+/**
+ * Основной стейт приложения.
+ */
+class AppState {
   private _inputStore1: InputStore;
   private _inputStore2: InputStore;
   private _autocomplete1: CountryAutocompleteStore;
@@ -28,4 +31,4 @@ class AppStore {
   }
 }
 
-export default new AppStore();
+export default new AppState();

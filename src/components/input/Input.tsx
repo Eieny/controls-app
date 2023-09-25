@@ -1,12 +1,18 @@
 import css from './Input.module.css';
 
 type Props = {
-  aRef?: React.RefObject<HTMLInputElement>;
+  /**
+   * Реф на текстовое поле.
+   */
+  inputRef?: React.RefObject<HTMLInputElement>;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
+/**
+ * Текстовое поле.
+ */
 const Input = (props: Props) => {
-  const {  aRef, ...inputProps } = props;
-  return <input {...inputProps} className={css['input']} ref={aRef} />;
+  const { inputRef, ...inputProps } = props;
+  return <input {...inputProps} className={css['input']} ref={inputRef} />;
 };
 
 export default Input;

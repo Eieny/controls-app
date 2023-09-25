@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Popover from '../popover/Popover';
 import PopoverItem from '../popover-item/PopoverItem';
@@ -26,10 +26,13 @@ type Props<T> = {
   placeholder?: string;
 
   /**
-   *
+   * Элементы списка.
    */
   options: T[];
 
+  /**
+   * Представление элемента списка.
+   */
   renderOption: (item: T) => JSX.Element;
 
   getOptionLabel: (item: T) => string;
@@ -37,26 +40,9 @@ type Props<T> = {
   isBuisy?: boolean;
 };
 
-const useOutsideClick = (callback: () => void) => {
-  const ref = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [callback]);
-
-  return ref;
-};
-
+/**
+ * Автокомплит.
+ */
 const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
   const {
     value,
@@ -68,20 +54,23 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
     getOptionLabel,
     isBuisy = false,
   } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, toggleOpen] = useState(false);
-  const ref = useOutsideClick(() => toggleOpen(false));
   const slicedOptions =
     maxOptions && options.length > maxOptions
       ? options.slice(0, maxOptions)
       : options;
 
+  const closePopover = () => toggleOpen(false);
+  const openPopover = () => toggleOpen(true);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isOpen && e.target.value.trim()) {
-      toggleOpen(true);
+      openPopover();
     }
 
     if (isOpen && !e.target.value.trim()) {
-      toggleOpen(false);
+      closePopover();
     }
 
     onChange(e.target.value);
@@ -89,15 +78,13 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
 
   const handleFocus = () => {
     if (!value.trim()) return;
-    toggleOpen(true);
+    openPopover();
   };
 
   const handleClickOption = (option: T) => {
     onChange(getOptionLabel(option));
-    toggleOpen(false);
+    closePopover();
   };
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div>
@@ -107,14 +94,14 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
         onChange={handleChange}
         onFocus={handleFocus}
         placeholder={placeholder}
-        aRef={inputRef}
+        inputRef={inputRef}
       />
       {createPortal(
         <Popover
           isOpen={isOpen}
           isBuisy={isBuisy}
-          innerRef={ref}
           anchorRef={inputRef}
+          outsideClick={closePopover}
         >
           {slicedOptions.map(option => (
             <PopoverItem

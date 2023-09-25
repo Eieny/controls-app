@@ -4,8 +4,20 @@ import useDebounce from '../../../utils/useDebounce';
 import Autocomplete from '../../autocomplete/Autocomplete';
 import css from './CountriesAutocomplete.module.css';
 
-type Props = { maxOptions: number; store: CountryAutocompleteStore };
+type Props = {
+  /**
+   * Максимальное каоличество отображаемых подсказок.
+   */
+  maxOptions: number;
+  /**
+   * Состояние элемента.
+   */
+  store: CountryAutocompleteStore;
+};
 
+/**
+ * Автокомплит для отображения стран.
+ */
 const CountriesAutocomplete = observer((props: Props) => {
   const { maxOptions, store } = props;
   const { value, countries, isPending, fetchCountryByName } = store;

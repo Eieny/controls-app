@@ -1,5 +1,10 @@
 import { useRef } from 'react';
 
+/**
+ * Откладывает вызов `callback` на `timeout` мс.
+ * @param callback Функция, которая будет вызвана по истечении времени.
+ * @param timeout Время, через которое сработает `callback`. По умолчанию 400 мс.
+ */
 const useDebounce = <T extends Function>(
   callback: T,
   timeout: number = 400

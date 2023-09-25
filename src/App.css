@@ -8,6 +8,7 @@
 .control-container h2 {
   grid-column: span 2;
   text-align: center;
+  align-self: center;
 }
 
 .control-container > div {
