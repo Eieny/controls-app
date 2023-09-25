@@ -1,4 +1,4 @@
-import countries from "./countries.json";
+import countries from './countries.json';
 
 export interface CountryInfo {
   name: string;
@@ -7,17 +7,17 @@ export interface CountryInfo {
 }
 
 export function getCountryByName(countryName: string): Promise<CountryInfo[]> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, getRandom(100, 800));
   }).then(() => {
-    if (typeof countryName !== "string" || !countryName) {
+    if (typeof countryName !== 'string' || !countryName) {
       return [];
     }
 
     const searchText = countryName.toLocaleLowerCase();
 
     return countries.filter(
-      (x) =>
+      x =>
         x.name.toLocaleLowerCase().startsWith(searchText) ||
         x.fullName.toLocaleLowerCase().startsWith(searchText)
     );
