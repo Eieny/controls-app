@@ -1,5 +1,5 @@
 import appState from './store/app.state';
-import { ButtonsControl, CountriesAutocomplete } from './components';
+import { ButtonsControl, CountriesAutocomplete } from './stored-components';
 import './App.css';
 
 const store = appState;

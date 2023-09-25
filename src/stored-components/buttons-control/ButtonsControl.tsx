@@ -1,8 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import InputStore from '../../../store/input.state';
-import ButtonsControl, {
-  ButtonItems,
-} from '../../buttons-control/ButtonsControl';
+import InputStore from '../../store/input.state';
+import ButtonsControl, { ButtonItems } from '../../components/buttons-control/ButtonsControl';
 
 type Props = {
   leftButtons?: ButtonItems[];

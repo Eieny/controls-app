@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import CountryAutocompleteStore from '../../../store/country-autocomplete.state';
-import useDebounce from '../../../utils/useDebounce';
-import Autocomplete from '../../autocomplete/Autocomplete';
+import CountryAutocompleteStore from '../../store/country-autocomplete.state';
+import useDebounce from '../../utils/useDebounce';
+import Autocomplete from '../../components/autocomplete/Autocomplete';
 import css from './CountriesAutocomplete.module.css';
 
 type Props = {
