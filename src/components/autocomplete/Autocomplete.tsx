@@ -99,7 +99,7 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
       {createPortal(
         <Popover
           isOpen={isOpen}
-          isBuisy={isBuisy}
+          isBusy={isBuisy}
           anchorRef={inputRef}
           outsideClick={closePopover}
         >

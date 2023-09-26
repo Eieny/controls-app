@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import css from './Popover.module.css';
 
 type Props = {
-  isBuisy?: boolean;
+  isBusy?: boolean;
   isOpen?: boolean;
   children: JSX.Element[];
   /**
@@ -73,7 +73,7 @@ const useOutsideClick = (callback: () => void) => {
 const Popover = (props: Props) => {
   const {
     children,
-    isBuisy = false,
+    isBusy: isBuisy = false,
     isOpen = false,
     anchorRef,
     outsideClick,
