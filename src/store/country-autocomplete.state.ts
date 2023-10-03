@@ -10,6 +10,8 @@ class CountryAutocompleteStore {
   private _state: Status = 'pending';
   private _countries: Array<Countries> = [];
   private _value: string = '';
+  // Тут будет храниться последний вызванный промис.
+  private _lastFetch: Promise<CountryInfo[]> | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -39,7 +41,21 @@ class CountryAutocompleteStore {
     this._state = 'pending';
 
     try {
-      const countries = await getCountryByName(str);
+      // Сохраняем промис текущего вызова.
+      const currentFetch = getCountryByName(str);
+      this._lastFetch = currentFetch;
+
+      const countries = await currentFetch.then(res => {
+        // Когда промис зарезолвится, проверяем
+        // является ли текущий промис последним вызванным
+        // если нет, то игнорируем его.
+        if (currentFetch === this._lastFetch) {
+          return res;
+        }
+      });
+      
+      if (!countries) return;
+
       runInAction(() => {
         this._countries = countries.map((x, index): Countries => {
           return { ...x, id: index };
