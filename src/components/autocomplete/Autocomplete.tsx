@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Popover from '../popover/Popover';
 import PopoverItem from '../popover-item/PopoverItem';
@@ -55,14 +55,18 @@ const Autocomplete = <T extends { id: number }>(props: Props<T>) => {
     isBuisy = false,
   } = props;
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isOpen, toggleOpen] = useState(false);
+  const [isOpen, toggle] = useState(false);
   const slicedOptions =
     maxOptions && options.length > maxOptions
       ? options.slice(0, maxOptions)
       : options;
 
-  const closePopover = () => toggleOpen(false);
-  const openPopover = () => toggleOpen(true);
+  useEffect(() => {
+    if (value.length === 0) toggle(false);
+  }, [value]);
+
+  const closePopover = () => toggle(false);
+  const openPopover = () => toggle(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isOpen && e.target.value.trim()) {
